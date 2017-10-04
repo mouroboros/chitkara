@@ -2,6 +2,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import os, unittest
+import time
 
 class NewVisitorTest (unittest.TestCase):
     def setUp(self):
@@ -19,19 +20,20 @@ class NewVisitorTest (unittest.TestCase):
         inputbox = self.browser.find_element_by_id('id_new_item')
         self.assertEqual(
             inputbox.get_attribute('placeholder'),
-            'Enter a to-do list'
+            'Enter a to-do item'
             )
-        #she types "buy peacock feathers"
-        inputbox.send_keys('Buy peacock feathers')
+        #she types "buy milk"
+        inputbox.send_keys('Buy milk')
         #when she hits enter the page updates and now the page lists
-        # '1: Buy peacock feathers'
+        # '1: Buy milk'
         
         inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
         self.assertTrue(
-            any(row.text == '1: Buy peacock feathers' for row in rows
+            any(row.text == '1: Buy milk' for row in rows,
+                "New to-do item did not appear in table"
                 ))
         
         #there is still a text box for new items
